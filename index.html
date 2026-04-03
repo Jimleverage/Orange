@@ -310,8 +310,34 @@
     .service-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
     .service-card p { font-size: 14px; color: var(--muted); line-height: 1.55; }
 
-    /* CTA */
-    .cta-section { padding: 120px 48px; background: var(--primary); text-align: center; }
+    /* CTA CURTAIN */
+    .cta-curtain { position: relative; height: 160vh; }
+    .cta-sticky {
+      position: sticky; top: 0;
+      height: 100vh; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cta-panel-left, .cta-panel-right {
+      position: absolute; top: 0; bottom: 0;
+      width: 50%; z-index: 3;
+      display: flex; align-items: center;
+      background: var(--bg);
+    }
+    .cta-panel-left { left: 0; justify-content: flex-end; padding-right: 48px; }
+    .cta-panel-right { right: 0; justify-content: flex-start; padding-left: 48px; }
+    .cta-panel-left span, .cta-panel-right span {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700; letter-spacing: -0.03em; color: var(--white); line-height: 1;
+    }
+    .cta-panel-left span em, .cta-panel-right span em { color: var(--accent); font-style: normal; }
+    .cta-content {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 40px;
+      background: var(--primary);
+    }
+    .cta-section { padding: 0; background: transparent; text-align: center; }
     .cta-section h2 { font-size: clamp(32px, 5vw, 60px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
     .cta-section h2 span { color: var(--accent); }
     .cta-section p { font-size: 18px; color: rgba(255,255,255,0.45); max-width: 44ch; margin: 0 auto 40px; line-height: 1.6; }
@@ -440,12 +466,20 @@
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-section">
-  <h2>Ready to treat your <span>pet?</span></h2>
-  <p>Book a grooming session or browse our full shop — we are here for every pet in Bahrain.</p>
-  <a href="#" class="btn-primary">Get Started</a>
-</section>
+<!-- CTA CURTAIN -->
+<div class="cta-curtain" id="ctaCurtain">
+  <div class="cta-sticky">
+    <div class="cta-content">
+      <section class="cta-section">
+        <h2>Ready to treat your <span>pet?</span></h2>
+        <p>Book a grooming session or browse our full shop — we are here for every pet in Bahrain.</p>
+        <a href="#" class="btn-primary">Get Started</a>
+      </section>
+    </div>
+    <div class="cta-panel-left" id="ctaLeft"><span>TREAT<br><em>YOUR</em></span></div>
+    <div class="cta-panel-right" id="ctaRight"><span><em>PET</em><br>TODAY</span></div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
@@ -568,10 +602,15 @@
     scrollTrigger: { trigger: '.services-grid', start: 'top 82%' }
   });
 
-  // CTA entrance
-  gsap.from('.cta-section h2, .cta-section p, .cta-section a', {
-    opacity: 0, y: 30, stagger: 0.12, duration: 0.7, ease: 'power2.out',
-    scrollTrigger: { trigger: '.cta-section', start: 'top 80%' }
+  // CTA curtain reveal
+  var ctaCurtain = document.getElementById('ctaCurtain');
+  gsap.to('#ctaLeft', {
+    xPercent: -100, ease: 'power2.inOut',
+    scrollTrigger: { trigger: ctaCurtain, start: 'top top', end: 'bottom bottom', scrub: 0.8 }
+  });
+  gsap.to('#ctaRight', {
+    xPercent: 100, ease: 'power2.inOut',
+    scrollTrigger: { trigger: ctaCurtain, start: 'top top', end: 'bottom bottom', scrub: 0.8 }
   });
 
 })();
