@@ -81,7 +81,8 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
 /* ── VIDEO HERO */
 .vid-hero-section {
   position: relative;
-  width: 100%; height: 100dvh;
+  width: 100vw; height: 100dvh;
+  margin-left: calc(50% - 50vw);
   overflow: hidden;
   background: #0a0604;
 }
@@ -490,8 +491,8 @@ footer .footer-bottom { max-width: 1080px; margin: 0 auto; display: flex; align-
 
 <!-- VIDEO HERO -->
 <section class="vid-hero-section" id="vidHero">
-  <video id="heroVideo" autoplay muted loop playsinline poster="frames/frame_001.jpg">
-    <source src="Video/orange.mp4" type="video/mp4">
+  <video id="heroVideo" autoplay muted loop playsinline poster="https://jimleverage.github.io/Orange/frames/frame_001.jpg">
+    <source src="https://jimleverage.github.io/Orange/Video/orange.mp4" type="video/mp4">
   </video>
   <div class="frame-overlay">
     <div class="frame-overlay-inner">
