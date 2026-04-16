@@ -543,7 +543,7 @@ gsap.registerPlugin(ScrollTrigger);
   for(var i = 0; i < TOTAL; i++){
     (function(idx){
       var img = new Image();
-      img.src = 'hero-frames/frame_' + pad(idx + 1) + '.jpg';
+      img.src = 'https://jimleverage.github.io/Orange/hero-frames/frame_' + pad(idx + 1) + '.jpg';
       img.onload = function(){ if(idx === 0) draw(0); };
       images.push(img);
     })(i);
