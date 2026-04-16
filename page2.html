@@ -535,7 +535,7 @@ gsap.registerPlugin(ScrollTrigger);
     if(!img || !img.complete || !img.naturalWidth) return;
     canvas.width  = sticky.offsetWidth  || window.innerWidth;
     canvas.height = sticky.offsetHeight || window.innerHeight;
-    var s = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
+    var s = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight) * 0.82;
     var w = img.naturalWidth  * s;
     var h = img.naturalHeight * s;
     ctx.fillStyle = '#FDF8F0';
