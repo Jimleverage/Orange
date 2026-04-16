@@ -3,267 +3,725 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toni &amp; Guy Bahrain</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Grove — Cold-Pressed Orange Juice</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
 :root {
-  --accent: #cca776;
-  --bg: #0a0a0a;
-  --text: #f1f2f2;
-  --muted: #6b6560;
-  --border: rgba(255,255,255,0.06);
-  --surface: #141414;
+  --bg: #FDFAF4;
+  --surface: #FFFFFF;
+  --text: #1A1208;
+  --muted: #7C6B50;
+  --accent: #F97316;
+  --accent-dark: #EA6800;
+  --accent-light: #FFF7ED;
+  --border: rgba(0,0,0,0.07);
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', sans-serif;
 }
+
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--text); font-family: 'Roboto', sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-/* NAV */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 48px; transition: background 0.4s, padding 0.4s, border-color 0.4s; border-bottom: 1px solid transparent; }
-nav.scrolled { background: rgba(10,10,10,0.88); backdrop-filter: blur(14px); padding: 16px 48px; border-color: var(--border); }
-.nav-logo { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px; font-weight: 400; color: var(--text); text-decoration: none; }
-.nav-links { display: flex; gap: 36px; align-items: center; }
-.nav-links a { font-size: 12px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+/* ── NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 68px;
+  background: rgba(253,250,244,0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
+.nav-logo {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.03em;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--muted);
+  text-decoration: none; transition: color 0.2s;
+}
 .nav-links a:hover { color: var(--text); }
-.nav-cta { padding: 10px 24px; border: 1px solid var(--accent); color: var(--accent) !important; border-radius: 2px; }
-.nav-cta:hover { background: var(--accent); color: var(--bg) !important; }
+.nav-cta {
+  background: var(--accent) !important;
+  color: #fff !important;
+  padding: 9px 22px !important;
+  border-radius: 6px;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  transition: background 0.2s, transform 0.15s;
+}
+.nav-cta:hover { background: var(--accent-dark) !important; transform: translateY(-1px); }
+@media (max-width: 768px) {
+  nav { padding: 0 24px; }
+  .nav-links li:not(:last-child) { display: none; }
+}
 
-/* HERO */
-.hero { position: relative; height: 100dvh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
-.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.2) 40%, rgba(10,10,10,0.72) 100%); z-index: 1; }
-.hero-content { position: relative; z-index: 2; text-align: center; padding: 0 24px; opacity: 0; }
-.hero-label { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; font-weight: 400; }
-.hero h1 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(48px, 8vw, 100px); line-height: 1.05; color: var(--text); margin-bottom: 20px; }
-.hero-tagline { font-size: 15px; font-weight: 300; color: rgba(241,242,242,0.7); letter-spacing: 0.05em; margin-bottom: 44px; }
-.hero-btn { display: inline-block; padding: 15px 44px; border: 1px solid var(--text); color: var(--text); text-decoration: none; font-size: 12px; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; transition: background 0.3s, color 0.3s, border-color 0.3s; }
-.hero-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-.hero-scroll { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.hero-scroll span { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(241,242,242,0.4); }
-.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollPulse 2s ease-in-out infinite; }
-@keyframes scrollPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+/* ── VIDEO HERO */
+.vid-hero-section {
+  position: relative;
+  width: 100%; height: 100dvh;
+  overflow: hidden;
+  background: #0a0604;
+}
+.vid-hero-section video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.92;
+}
+/* bottom-up dark vignette for balanced text */
+.vid-hero-section::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0.08) 65%, transparent 100%),
+    linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 20%);
+}
+.frame-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding: 0 24px 72px;
+  text-align: center;
+}
+.frame-overlay-inner {
+  max-width: 620px;
+}
+.hero-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 20px;
+}
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 700; line-height: 1.05;
+  letter-spacing: -0.025em; color: #fff; margin-bottom: 18px;
+  text-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+.hero-title em { font-style: italic; color: var(--accent); }
+.hero-tagline {
+  font-size: 16px; color: rgba(255,255,255,0.7); line-height: 1.65;
+  margin-bottom: 32px; max-width: 44ch;
+  margin-left: auto; margin-right: auto;
+}
+.hero-cta {
+  display: inline-block; background: var(--accent); color: #fff;
+  padding: 14px 40px; border-radius: 6px;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.03em;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(249,115,22,0.45);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.hero-cta:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(249,115,22,0.55);
+}
+.hero-size-note {
+  margin-top: 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.scroll-indicator {
+  position: absolute; bottom: 24px; left: 50%;
+  transform: translateX(-50%); z-index: 3;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: fadeFloat 2.4s ease-in-out infinite;
+}
+.scroll-indicator span {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.45);
+}
+.scroll-arrow {
+  width: 16px; height: 16px;
+  border-right: 1.5px solid rgba(255,255,255,0.35);
+  border-bottom: 1.5px solid rgba(255,255,255,0.35);
+  transform: rotate(45deg); margin-top: -4px;
+}
+@keyframes fadeFloat {
+  0%,100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+  50%      { opacity: 1;   transform: translateX(-50%) translateY(6px); }
+}
+@media (max-width: 768px) {
+  .frame-overlay { padding: 0 24px 56px; }
+  .frame-overlay-inner { max-width: 100%; }
+  .hero-title { font-size: clamp(32px, 9vw, 48px); }
+  .hero-tagline { font-size: 14px; margin-bottom: 24px; }
+  .hero-cta { padding: 12px 28px; font-size: 13px; }
+}
 
-/* MARQUEE */
-.marquee-section { padding: 56px 0; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
-.marquee-row { display: flex; white-space: nowrap; will-change: transform; }
-.marquee-content { display: flex; align-items: center; flex-shrink: 0; }
-.marquee-item { display: inline-flex; align-items: center; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(28px, 4vw, 48px); font-weight: 400; color: var(--text); padding: 0 32px; letter-spacing: 0.02em; }
-.marquee-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin: 0 8px; opacity: 0.8; }
+/* ── MARQUEE */
+.marquee-section { overflow: hidden; }
+.marquee-band-top {
+  background: var(--accent);
+  padding: 16px 0;
+}
+.marquee-band-bottom {
+  background: var(--text);
+  padding: 16px 0;
+}
+.marquee-row {
+  display: flex; white-space: nowrap; will-change: transform;
+}
+.marquee-item {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 15px; font-weight: 600; letter-spacing: 0.02em;
+  color: #fff; padding: 0 32px; flex-shrink: 0;
+}
+.marquee-item-filled {
+  display: inline-flex; align-items: center;
+  font-size: 15px; font-weight: 600; letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.45); padding: 0 32px; flex-shrink: 0;
+}
+.marquee-dot {
+  display: inline-block; width: 5px; height: 5px;
+  background: rgba(255,255,255,0.35); border-radius: 50; flex-shrink: 0;
+}
 
-/* SERVICES */
-.services-section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
-.section-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
-.section-heading { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(32px, 5vw, 56px); font-weight: 400; color: var(--text); margin-bottom: 60px; max-width: 500px; line-height: 1.15; }
-.spot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-.spot-card { background: var(--bg); padding: 48px 36px; position: relative; overflow: hidden; cursor: default; }
-.spot-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle 220px at var(--mx,50%) var(--my,50%), rgba(204,167,118,0.09), transparent 70%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+/* ── HOOK STRIP */
+.hook-strip {
+  background: var(--accent);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 20px; flex-wrap: wrap;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #fff;
+}
+.hook-strip .dot { opacity: 0.4; }
+
+/* ── STICKY CARDS */
+.sticky-cards-wrap {
+  background: linear-gradient(to bottom, rgba(20,12,4,0.6) 0%, rgba(20,12,4,0.1) 4%, var(--bg) 10%);
+}
+.sticky-cards-section { padding: 0 24px 240px; max-width: 1280px; margin: 0 auto; }
+.sticky-cards-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 40px; padding-top: 72px; display: block; text-align: center;
+}
+.sc-card {
+  position: sticky;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 420px;
+  margin-bottom: 24px;
+  display: flex; align-items: flex-end;
+  will-change: transform;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.14);
+}
+.sc-card:nth-child(2) { top: 80px;  z-index: 1; }
+.sc-card:nth-child(3) { top: 104px; z-index: 2; }
+.sc-card:nth-child(4) { top: 128px; z-index: 3; }
+.sc-card:nth-child(5) { top: 152px; z-index: 4; }
+.sc-bg {
+  position: absolute; inset: 0;
+}
+.sc-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sc-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+}
+.sc-content {
+  position: relative; z-index: 2;
+  padding: 48px 56px; width: 100%;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;
+}
+.sc-text { max-width: 560px; }
+.sc-num { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: block; }
+.sc-card h3 { font-family: var(--font-heading); font-size: clamp(24px, 3vw, 40px); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 12px; }
+.sc-card p { font-size: 15px; color: rgba(255,255,255,0.72); line-height: 1.65; max-width: 46ch; }
+.sc-tag {
+  flex-shrink: 0; background: rgba(255,255,255,0.12); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 100px;
+  padding: 10px 22px; font-size: 13px; font-weight: 600; color: #fff; white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .sticky-cards-section { padding: 0 16px 120px; }
+  .sc-card { position: relative; top: 0 !important; min-height: 280px; margin-bottom: 16px; border-radius: 18px; }
+  .sc-content { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .sc-card h3 { font-size: 22px; }
+  .sc-card p { font-size: 13px; }
+  .sc-tag { font-size: 11px; padding: 7px 16px; }
+}
+
+/* ── WHY US */
+.why-section {
+  padding: 120px 24px;
+  max-width: 1080px; margin: 0 auto;
+}
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 16px; display: block;
+}
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700; letter-spacing: -0.02em;
+  line-height: 1.15; margin-bottom: 16px; max-width: 480px;
+}
+.section-sub {
+  font-size: 16px; color: var(--muted);
+  line-height: 1.65; max-width: 46ch; margin-bottom: 64px;
+}
+.spot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px; background: var(--border);
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.spot-card {
+  background: var(--surface); padding: 44px 32px;
+  position: relative; overflow: hidden; cursor: default;
+}
+.spot-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle 200px at var(--mx,50%) var(--my,50%), rgba(249,115,22,0.07), transparent);
+  opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
 .spot-card:hover::before { opacity: 1; }
-.spot-num { font-size: 11px; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 20px; font-weight: 400; }
-.spot-card h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 24px; font-weight: 400; color: var(--text); margin-bottom: 10px; }
-.spot-card p { font-size: 14px; color: var(--muted); line-height: 1.65; font-weight: 300; }
+.card-num {
+  font-family: var(--font-heading); font-size: 40px; font-weight: 700;
+  color: rgba(249,115,22,0.08); margin-bottom: 20px; letter-spacing: -0.03em;
+}
+.card-icon {
+  width: 40px; height: 40px; background: var(--accent-light);
+  border-radius: 10px; display: flex; align-items: center;
+  justify-content: center; margin-bottom: 20px; color: var(--accent);
+}
+.card-icon svg { width: 20px; height: 20px; }
+.spot-card h3 {
+  font-family: var(--font-heading); font-size: 20px; font-weight: 600;
+  margin-bottom: 10px; letter-spacing: -0.01em;
+}
+.spot-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.card-tag {
+  display: inline-block; margin-top: 20px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent);
+}
 
-/* ABOUT */
-.about-section { padding: 120px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; border-top: 1px solid var(--border); }
-.about-left p { font-size: 16px; color: var(--muted); line-height: 1.8; max-width: 44ch; font-weight: 300; margin-top: 24px; }
-.about-right { display: flex; flex-direction: column; gap: 32px; }
-.about-stat { border-left: 1px solid var(--accent); padding-left: 24px; }
-.about-stat-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 48px; font-weight: 400; color: var(--text); line-height: 1; margin-bottom: 6px; }
-.about-stat-label { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+/* ── STATS */
+.stats-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 24px;
+}
+.stats-inner { max-width: 960px; margin: 0 auto; text-align: center; }
+.stats-inner .section-label { display: block; margin-bottom: 12px; }
+.stats-inner .section-title { margin: 0 auto 64px; text-align: center; max-width: none; }
+.stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px; background: var(--border);
+  border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+}
+.stat-item { background: var(--surface); padding: 48px 24px 40px; text-align: center; }
+.stat-row { display: flex; align-items: flex-start; justify-content: center; gap: 2px; }
+.odometer {
+  font-family: var(--font-heading);
+  font-size: clamp(40px, 6vw, 64px); font-weight: 700;
+  color: var(--accent); letter-spacing: -0.03em;
+  overflow: hidden; height: 1.15em;
+  display: flex; justify-content: center; align-items: flex-start;
+}
+.odo-digit { display: inline-block; overflow: hidden; height: 1.15em; position: relative; }
+.odo-strip { display: flex; flex-direction: column; transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.odo-strip span { display: block; height: 1.15em; line-height: 1.15; }
+.stat-suffix {
+  font-family: var(--font-heading); font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700; color: var(--accent); line-height: 1.15;
+}
+.stat-prefix {
+  font-family: var(--font-heading); font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700; color: var(--accent); line-height: 1.15;
+}
+.stat-label { font-size: 13px; font-weight: 500; color: var(--muted); margin-top: 10px; }
 
-/* CTA */
-.cta-section { padding: 160px 48px; text-align: center; background: var(--surface); border-top: 1px solid var(--border); }
-.cta-section h2 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(36px, 6vw, 72px); font-weight: 400; color: var(--text); line-height: 1.1; margin: 20px 0 16px; }
-.cta-section p { font-size: 16px; color: var(--muted); margin-bottom: 48px; font-weight: 300; }
-.cta-btn { display: inline-block; padding: 18px 56px; background: var(--accent); color: var(--bg); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; transition: opacity 0.2s; }
-.cta-btn:hover { opacity: 0.85; }
+/* ── PRODUCT / ABOUT */
+.product-section {
+  padding: 140px 24px; max-width: 1080px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.product-body { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 40px; }
+.product-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 600; color: var(--accent);
+  text-decoration: none; transition: gap 0.2s;
+}
+.product-cta:hover { gap: 16px; }
+.product-cta::after { content: '→'; }
+.product-visual {
+  position: relative; border-radius: 20px; overflow: hidden;
+  background: var(--accent-light); border: 1px solid var(--border);
+}
+.facts-list { list-style: none; display: flex; flex-direction: column; gap: 16px; padding: 40px 36px; }
+.fact-item { display: flex; align-items: flex-start; gap: 14px; }
+.fact-icon {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-size: 15px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.fact-copy strong { display: block; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.fact-copy span { font-size: 13px; color: var(--muted); }
+.product-badge {
+  margin: 0 36px 36px;
+  background: #fff; border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  display: flex; align-items: center; gap: 12px;
+  border: 1px solid var(--border);
+}
+.badge-dot {
+  width: 10px; height: 10px; background: #22C55E;
+  border-radius: 50%; flex-shrink: 0;
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.badge-text { font-size: 13px; font-weight: 600; color: var(--text); }
+.badge-sub  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+@media (max-width: 768px) {
+  .why-section { padding: 64px 24px; }
+  .product-section { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
+  .stats-section { padding: 64px 24px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .cta-section { padding: 72px 24px; }
+  .cta-title { font-size: clamp(28px, 8vw, 40px); }
+}
 
-/* FOOTER */
-footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.footer-logo { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; color: var(--text); }
-.footer-links { display: flex; gap: 28px; }
-.footer-links a { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: var(--text); }
-.footer-copy { font-size: 11px; color: var(--muted); }
+/* ── CTA */
+.cta-section { background: var(--accent); padding: 120px 24px; text-align: center; }
+.cta-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 20px;
+}
+.cta-title {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: #fff;
+  letter-spacing: -0.02em; line-height: 1.12; margin-bottom: 20px;
+  max-width: 560px; margin-left: auto; margin-right: auto;
+}
+.cta-title em { font-style: italic; opacity: 0.72; }
+.cta-sub {
+  font-size: 16px; color: rgba(255,255,255,0.65);
+  max-width: 44ch; margin: 0 auto 48px; line-height: 1.65;
+}
+.cta-btn {
+  display: inline-block; background: #fff; color: var(--accent);
+  padding: 16px 44px; border-radius: 6px;
+  font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.18); }
+.cta-note { margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.04em; }
 
-/* RESPONSIVE */
-@media (max-width: 1024px) { .spot-grid { grid-template-columns: repeat(2, 1fr); } .about-section { grid-template-columns: 1fr; gap: 48px; } }
-@media (max-width: 768px) { nav { padding: 20px 24px; } nav.scrolled { padding: 14px 24px; } .nav-links { display: none; } .spot-grid { grid-template-columns: 1fr; } .services-section, .about-section, .cta-section { padding: 80px 24px; } footer { flex-direction: column; gap: 20px; text-align: center; padding: 32px 24px; } .footer-links { flex-wrap: wrap; justify-content: center; gap: 16px; } }
-@media (max-width: 480px) { .hero h1 { font-size: 42px; } .marquee-item { font-size: 26px; } }
+/* ── FOOTER */
+footer { background: #120D05; color: rgba(255,255,255,0.45); padding: 40px 24px; }
+footer .footer-bottom { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.4); flex-wrap: wrap; gap: 8px; }
+.footer-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 64px;
+  padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand .logo {
+  font-family: var(--font-heading); font-size: 22px; font-weight: 700;
+  color: #fff; margin-bottom: 12px; letter-spacing: -0.03em;
+}
+.footer-brand .logo span { color: var(--accent); }
+.footer-brand p { font-size: 14px; line-height: 1.7; max-width: 28ch; }
+.footer-col h4 {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-col a { font-size: 14px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+.footer-col a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1080px; margin: 0 auto; padding-top: 32px;
+  display: flex; align-items: center; justify-content: space-between; font-size: 12px;
+}
+@media (max-width: 768px) {
+  .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+  footer { padding: 48px 24px 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav id="nav">
-  <a class="nav-logo" href="#">Toni &amp; Guy</a>
-  <div class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#about">About</a>
-    <a href="http://toniandguybh.com" target="_blank">Original Site</a>
-    <a href="http://toniandguybh.com" target="_blank" class="nav-cta">Book Online</a>
-  </div>
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Grove<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="page2.html">Why Grove</a></li>
+    <li><a href="page2.html#order">Order</a></li>
+    <li><a href="page2.html" class="nav-cta">Get Yours →</a></li>
+  </ul>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline>
-    <source src="hero.mp4" type="video/mp4">
+<!-- VIDEO HERO -->
+<section class="vid-hero-section" id="vidHero">
+  <video autoplay muted loop playsinline>
+    <source src="Video/orange.mp4" type="video/mp4">
   </video>
-  <div class="hero-overlay"></div>
-  <div class="hero-content" id="heroContent">
-    <div class="hero-label">Bahrain &middot; Since 1984</div>
-    <h1>Where Hair<br>Becomes Art</h1>
-    <p class="hero-tagline">One of a kind. Every time.</p>
-    <a href="http://toniandguybh.com" target="_blank" class="hero-btn">Book Your Session</a>
+  <div class="frame-overlay">
+    <div class="frame-overlay-inner">
+      <div class="hero-label">Cold-Pressed · 100% Natural · No Additives</div>
+      <h1 class="hero-title">Pure Orange.<br><em>Tiny Can. Big Taste.</em></h1>
+      <p class="hero-tagline">Grove is real cold-pressed orange juice in a compact can — no concentrates, no preservatives, no compromise. Just the fruit.</p>
+      <a href="page2.html" class="hero-cta">Get Your Grove</a>
+      <p class="hero-size-note">250ml · Pocket-sized · Chilled to perfection</p>
+    </div>
   </div>
-  <div class="hero-scroll">
+  <div class="scroll-indicator">
     <span>Scroll</span>
-    <div class="scroll-line"></div>
+    <div class="scroll-arrow"></div>
   </div>
+</section>
+</div>
+
+<!-- HOOK STRIP -->
+<section class="hook-strip">
+  <span>Cold-Pressed</span>
+  <span class="dot">·</span>
+  <span>100% Real Oranges</span>
+  <span class="dot">·</span>
+  <span>No Sugar Added</span>
+  <span class="dot">·</span>
+  <span>250ml Compact Can</span>
+  <span class="dot">·</span>
+  <span>No Preservatives</span>
+  <span class="dot">·</span>
+  <span>Chilled Fresh Daily</span>
+</section>
+
+
+<!-- STICKY CARDS -->
+<div class="sticky-cards-wrap">
+<section class="sticky-cards-section">
+  <span class="sticky-cards-label">Why Grove</span>
+
+  <div class="sc-card">
+    <div class="sc-bg"><img src="Photos/Oranges.jpg" alt="Grove can with fresh oranges"></div>
+    <div class="sc-content">
+      <div class="sc-text">
+        <span class="sc-num">01</span>
+        <h3>3 whole oranges.<br>One can.</h3>
+        <p>Every 250ml Grove is cold-pressed from 3+ whole Valencia oranges. No water, no concentrate — the full fruit, nothing less.</p>
+      </div>
+      <div class="sc-tag">250ml Can</div>
+    </div>
+  </div>
+
+  <div class="sc-card">
+    <div class="sc-bg"><img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=1400&q=85&auto=format&fit=crop" alt="Cold pressed juice"></div>
+    <div class="sc-content">
+      <div class="sc-text">
+        <span class="sc-num">02</span>
+        <h3>Cold-pressed.<br>Never heated.</h3>
+        <p>Heat kills flavour and vitamins. We use HPP — high-pressure processing at 87,000 PSI keeps everything nature put in the fruit.</p>
+      </div>
+      <div class="sc-tag">HPP Process</div>
+    </div>
+  </div>
+
+  <div class="sc-card">
+    <div class="sc-bg"><img src="https://images.unsplash.com/photo-1547514701-42782101795e?w=1400&q=85&auto=format&fit=crop" alt="Fresh oranges"></div>
+    <div class="sc-content">
+      <div class="sc-text">
+        <span class="sc-num">03</span>
+        <h3>Zero additives.<br>Full stop.</h3>
+        <p>No preservatives, no sweeteners, no colour, no flavour packs. The ingredient list is exactly one item long: oranges.</p>
+      </div>
+      <div class="sc-tag">100% Natural</div>
+    </div>
+  </div>
+
+  <div class="sc-card">
+    <div class="sc-bg"><img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?w=1400&q=85&auto=format&fit=crop" alt="Orange juice glass"></div>
+    <div class="sc-content">
+      <div class="sc-text">
+        <span class="sc-num">04</span>
+        <h3>Pocket-sized.<br>Anywhere-ready.</h3>
+        <p>At 250ml it slips into any bag or cupholder. Chills in 15 minutes. Opens in a second. Juice, finally on your terms.</p>
+      </div>
+      <div class="sc-tag">Go Anywhere</div>
+    </div>
+  </div>
+
 </section>
 
 <!-- MARQUEE -->
-<section class="marquee-section">
-  <div class="marquee-row" id="marqueeRow">
-    <div class="marquee-content" id="marqueeContent">
-      <span class="marquee-item">Toni &amp; Guy<span class="marquee-dot"></span></span>
-      <span class="marquee-item">Bahrain<span class="marquee-dot"></span></span>
-      <span class="marquee-item">Colour<span class="marquee-dot"></span></span>
-      <span class="marquee-item">Cut<span class="marquee-dot"></span></span>
-      <span class="marquee-item">Style<span class="marquee-dot"></span></span>
-      <span class="marquee-item">Balayage<span class="marquee-dot"></span></span>
-      <span class="marquee-item">KeraStraight<span class="marquee-dot"></span></span>
-      <span class="marquee-item">Est. 1984<span class="marquee-dot"></span></span>
+<div class="marquee-section">
+  <!-- Orange band — left -->
+  <div class="marquee-band-top">
+    <div class="marquee-row" data-direction="left" data-speed="0.7">
+      <div class="marquee-content">
+        <span class="marquee-item">Cold-Pressed <span class="marquee-dot"></span></span>
+        <span class="marquee-item-filled">No Sugar Added <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Real Fruit Only <span class="marquee-dot"></span></span>
+        <span class="marquee-item-filled">No Concentrate <span class="marquee-dot"></span></span>
+        <span class="marquee-item">250ml Can <span class="marquee-dot"></span></span>
+        <span class="marquee-item-filled">Chilled Fresh <span class="marquee-dot"></span></span>
+        <span class="marquee-item">No Preservatives <span class="marquee-dot"></span></span>
+        <span class="marquee-item-filled">Pocket-Sized <span class="marquee-dot"></span></span>
+      </div>
     </div>
   </div>
-</section>
-
-<!-- SERVICES -->
-<section class="services-section" id="services">
-  <div class="section-label">Our Services</div>
-  <div class="section-heading">Crafted for every strand</div>
-  <div class="spot-grid" id="spotGrid">
-    <div class="spot-card">
-      <div class="spot-num">01</div>
-      <h3>Balayage</h3>
-      <p>Hand-painted colour technique for naturally sun-kissed, seamlessly blended tones with low maintenance results.</p>
-    </div>
-    <div class="spot-card">
-      <div class="spot-num">02</div>
-      <h3>Root Stretch &amp; Lumi Ombrage</h3>
-      <p>Soft root blending into luminous, glowing ends. The most flattering gradient in modern colour.</p>
-    </div>
-    <div class="spot-card">
-      <div class="spot-num">03</div>
-      <h3>Ultimate Blonde</h3>
-      <p>Expertly lifted and toned blonde. Bright, clean, and precisely maintained from root to tip.</p>
-    </div>
-    <div class="spot-card">
-      <div class="spot-num">04</div>
-      <h3>KeraStraight</h3>
-      <p>Advanced keratin treatment that simultaneously repairs and smooths, transforming frizz into silk.</p>
-    </div>
-    <div class="spot-card">
-      <div class="spot-num">05</div>
-      <h3>Global Colour</h3>
-      <p>Rich, even all-over colour with deep conditioning. Vibrant brunettes, bold reds, and everything between.</p>
-    </div>
-    <div class="spot-card">
-      <div class="spot-num">06</div>
-      <h3>Men's Grooming</h3>
-      <p>Precision cuts, textured styling, and beard work tailored for the modern man.</p>
+  <!-- Dark band — right -->
+  <div class="marquee-band-bottom">
+    <div class="marquee-row" data-direction="right" data-speed="0.55">
+      <div class="marquee-content">
+        <span class="marquee-item">Rich in Vitamin C <span class="marquee-dot"></span></span>
+        <span class="marquee-item-filled">No Artificial Flavour <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Squeezed Daily <span class="marquee-dot"></span></span>
+        <span class="marquee-item-filled">Non-GMO <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Recyclable Can <span class="marquee-dot"></span></span>
+        <span class="marquee-item-filled">Zero Additives <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Pulp or No Pulp <span class="marquee-dot"></span></span>
+        <span class="marquee-item-filled">Naturally Sweet <span class="marquee-dot"></span></span>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ABOUT -->
-<section class="about-section" id="about">
-  <div class="about-left">
-    <div class="section-label">Our Story</div>
-    <div class="section-heading">The art of transformation</div>
-    <p>Toni &amp; Guy Bahrain brings world-class hairdressing to the Kingdom. Our team of artists are trained to the highest international standards, delivering looks that are as individual as you are.</p>
-  </div>
-  <div class="about-right">
-    <div class="about-stat">
-      <div class="about-stat-num">40+</div>
-      <div class="about-stat-label">Years of Global Excellence</div>
-    </div>
-    <div class="about-stat">
-      <div class="about-stat-num">6</div>
-      <div class="about-stat-label">Specialist Services</div>
-    </div>
-    <div class="about-stat">
-      <div class="about-stat-num">1</div>
-      <div class="about-stat-label">Commitment &mdash; You</div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-section">
-  <div class="section-label">Ready?</div>
-  <h2>Your transformation<br>begins here</h2>
-  <p>Book your appointment online. It takes 60 seconds.</p>
-  <a href="http://toniandguybh.com" target="_blank" class="cta-btn">Book Online</a>
-</section>
-
-<!-- FOOTER -->
+<!-- FOOTER P1 -->
 <footer>
-  <div class="footer-logo">Toni &amp; Guy Bahrain</div>
-  <div class="footer-links">
-    <a href="#services">Services</a>
-    <a href="#about">About</a>
-    <a href="http://toniandguybh.com" target="_blank">Book Online</a>
+  <div class="footer-bottom">
+    <span>© 2026 Grove. All rights reserved.</span>
+    <span>Made with 🍊 in Bahrain</span>
   </div>
-  <div class="footer-copy">&copy; 2025 Toni &amp; Guy Bahrain</div>
 </footer>
 
+<!-- SCRIPTS -->
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero fade-in
-gsap.fromTo('#heroContent', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out', delay: 0.4 });
+// NAV shadow on scroll
+(function(){
+  var nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+})();
 
-// Nav scroll
-window.addEventListener('scroll', function() {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
-});
 
-// Spotlight cards
-(function() {
+
+// STICKY CARDS scale-down
+(function(){
+  var cards = document.querySelectorAll('.sc-card');
+  cards.forEach(function(card, i){
+    if(i < cards.length - 1){
+      gsap.to(card, {
+        scale: 0.96, opacity: 0.7,
+        scrollTrigger: {
+          trigger: cards[i + 1],
+          start: 'top 85%', end: 'top 20%',
+          scrub: true
+        }
+      });
+    }
+  });
+})();
+
+// KINETIC MARQUEE
+(function(){
+  document.querySelectorAll('.marquee-row').forEach(function(row){
+    var content = row.querySelector('.marquee-content');
+    row.appendChild(content.cloneNode(true));
+  });
+  var scrollVel = 0;
+  ScrollTrigger.create({ onUpdate: function(s){ scrollVel = Math.abs(s.getVelocity()); } });
+  document.querySelectorAll('.marquee-row').forEach(function(row){
+    var content = row.querySelector('.marquee-content');
+    var dir     = row.dataset.direction === 'right' ? 1 : -1;
+    var mult    = parseFloat(row.dataset.speed) || 1;
+    var cw      = content.offsetWidth;
+    var x       = dir === -1 ? 0 : -cw;
+    (function tick(){
+      var spd = (70 + scrollVel * 0.12) * mult;
+      x += dir * -1 * spd / 60;
+      if(dir === -1 && x <= -cw) x += cw;
+      if(dir ===  1 && x >=  0) x -= cw;
+      row.style.transform = 'translateX(' + x + 'px)';
+      requestAnimationFrame(tick);
+    })();
+  });
+})();
+
+// SPOTLIGHT BORDER CARDS
+(function(){
   var grid = document.getElementById('spotGrid');
-  grid.addEventListener('mousemove', function(e) {
-    grid.querySelectorAll('.spot-card').forEach(function(c) {
+  grid.addEventListener('mousemove', function(e){
+    grid.querySelectorAll('.spot-card').forEach(function(c){
       var r = c.getBoundingClientRect();
       c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top)  + 'px');
     });
   });
 })();
 
-// Marquee
-(function() {
-  var row = document.getElementById('marqueeRow');
-  var content = document.getElementById('marqueeContent');
-  for (var i = 0; i < 5; i++) { row.appendChild(content.cloneNode(true)); }
-  var x = 0;
-  var width = content.offsetWidth;
-  function tick() {
-    x -= 0.6;
-    if (Math.abs(x) >= width) x = 0;
-    row.style.transform = 'translateX(' + x + 'px)';
-    requestAnimationFrame(tick);
-  }
-  tick();
+// ODOMETER
+(function(){
+  document.querySelectorAll('.odometer').forEach(function(odo){
+    var val    = odo.dataset.value;
+    var digits = val.split('');
+    odo.innerHTML = '';
+    digits.forEach(function(d){
+      var digit = document.createElement('div');
+      digit.className = 'odo-digit';
+      var strip = document.createElement('div');
+      strip.className = 'odo-strip';
+      for(var i = 0; i <= 9; i++){
+        var s = document.createElement('span');
+        s.textContent = i;
+        strip.appendChild(s);
+      }
+      digit.appendChild(strip);
+      odo.appendChild(digit);
+    });
+    ScrollTrigger.create({
+      trigger: odo, start: 'top 85%', once: true,
+      onEnter: function(){
+        odo.querySelectorAll('.odo-strip').forEach(function(strip, i){
+          var target = parseInt(digits[i]);
+          var h = strip.children[0].offsetHeight;
+          strip.style.transform      = 'translateY(-' + (target * h) + 'px)';
+          strip.style.transitionDelay = (i * 0.1) + 's';
+        });
+      }
+    });
+  });
 })();
-
-// Services animate in
-gsap.fromTo('.spot-card', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power2.out', scrollTrigger: { trigger: '#services', start: 'top 75%' } });
-
-// About stats animate in
-gsap.fromTo('.about-stat', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.7, stagger: 0.15, ease: 'power2.out', scrollTrigger: { trigger: '.about-section', start: 'top 70%' } });
 </script>
 </body>
 </html>
