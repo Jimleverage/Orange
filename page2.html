@@ -51,12 +51,11 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
 
 /* ── FRAME HERO */
 .frame-hero-section {
-  height: 100vh; position: relative;
+  position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
 }
 .frame-sticky {
-  position: relative; top: 0;
   height: 100vh; overflow: hidden;
   display: flex; align-items: center; justify-content: flex-start;
 }
@@ -86,7 +85,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
 .p2-scroll-arrow { width: 18px; height: 18px; border-right: 2px solid rgba(26,18,8,0.35); border-bottom: 2px solid rgba(26,18,8,0.35); transform: rotate(45deg); margin-top: -4px; }
 @keyframes fadeFloat { 0%,100% { opacity: 0.5; transform: translateY(0); } 50% { opacity: 1; transform: translateY(6px); } }
 @media (max-width: 768px) {
-  .frame-hero-section { height: 100vh; }
+  .frame-hero-section { min-height: 100vh; }
   .frame-overlay { padding: 0 20px; max-width: 100%; }
   .intro-title { font-size: clamp(36px, 10vw, 54px); }
   .intro-body { font-size: 16px; margin-bottom: 28px; }
@@ -513,58 +512,65 @@ gsap.registerPlugin(ScrollTrigger);
   window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
 })();
 
-// FRAME SEQUENCE HERO
+// FRAME SEQUENCE HERO — GSAP pin (works inside GHL containers)
 (function(){
   var canvas  = document.getElementById('heroCanvas');
   var ctx     = canvas.getContext('2d');
-  var section = document.getElementById('frameHero');
+  var sticky  = document.querySelector('.frame-sticky');
   var TOTAL   = 121;
   var images  = [];
   var current = 0;
 
+  function pad(n){ return String(n).padStart(3,'0'); }
+
   function resize(){
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width  = sticky.offsetWidth  || window.innerWidth;
+    canvas.height = sticky.offsetHeight || window.innerHeight;
     draw(current);
   }
   window.addEventListener('resize', resize);
-  resize();
-
-  function pad(n){ return String(n).padStart(3,'0'); }
 
   function draw(idx){
     var img = images[idx];
-    if(!img || !img.complete) return;
-    // cover fit — fill canvas, center crop
+    if(!img || !img.complete || !img.naturalWidth) return;
+    canvas.width  = sticky.offsetWidth  || window.innerWidth;
+    canvas.height = sticky.offsetHeight || window.innerHeight;
     var s = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
     var w = img.naturalWidth  * s;
     var h = img.naturalHeight * s;
-    var x = (canvas.width  - w) / 2;
-    var y = (canvas.height - h) / 2;
     ctx.fillStyle = '#FDF8F0';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, x, y, w, h);
+    ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
   }
 
+  // Preload all frames
   for(var i = 0; i < TOTAL; i++){
     (function(idx){
       var img = new Image();
+      img.onload = function(){ if(idx === 0){ resize(); draw(0); } };
       img.src = 'https://jimleverage.github.io/Orange/hero-frames/frame_' + pad(idx + 1) + '.jpg';
-      img.onload = function(){ if(idx === 0) draw(0); };
       images.push(img);
     })(i);
   }
 
-  window.addEventListener('scroll', function(){
-    var rect  = section.getBoundingClientRect();
-    var total = section.offsetHeight - window.innerHeight;
-    var pct   = Math.max(0, Math.min(1, -rect.top / total));
-    var idx   = Math.min(TOTAL - 1, Math.round(pct * (TOTAL - 1)));
-    if(idx !== current){
-      current = idx;
-      requestAnimationFrame(function(){ draw(current); });
-    }
-  }, { passive: true });
+  // GSAP pin — JS-controlled, bypasses GHL overflow:hidden on parents
+  // end: +=400% means user scrolls 4x viewport height through the sequence
+  ScrollTrigger.create({
+    trigger: '#frameHero',
+    start: 'top top',
+    end: '+=400%',
+    pin: '.frame-sticky',
+    anticipatePin: 1,
+    scrub: 0.3,
+    onUpdate: function(self){
+      var idx = Math.min(TOTAL - 1, Math.round(self.progress * (TOTAL - 1)));
+      if(idx !== current){
+        current = idx;
+        draw(idx);
+      }
+    },
+    onEnter: function(){ resize(); }
+  });
 })();
 
 // MARQUEE
