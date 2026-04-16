@@ -743,6 +743,25 @@ gsap.registerPlugin(ScrollTrigger);
     });
   });
 })();
+
+// GHL FULL-WIDTH FIX — remove overflow:hidden from all parent containers
+(function(){
+  var targets = ['.vid-hero-section', '.hook-strip', '.sticky-cards-wrap', '.marquee-section', 'footer', 'nav'];
+  targets.forEach(function(sel){
+    var el = document.querySelector(sel);
+    if (!el) return;
+    var p = el.parentElement;
+    while (p && p !== document.body) {
+      p.style.setProperty('overflow', 'visible', 'important');
+      p.style.setProperty('overflow-x', 'visible', 'important');
+      p.style.setProperty('max-width', 'none', 'important');
+      p.style.setProperty('width', '100%', 'important');
+      p = p.parentElement;
+    }
+  });
+  document.body.style.setProperty('overflow-x', 'hidden', 'important');
+  document.documentElement.style.setProperty('overflow-x', 'hidden', 'important');
+})();
 </script>
 </body>
 </html>
