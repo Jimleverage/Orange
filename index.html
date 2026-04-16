@@ -490,7 +490,7 @@ footer .footer-bottom { max-width: 1080px; margin: 0 auto; display: flex; align-
 
 <!-- VIDEO HERO -->
 <section class="vid-hero-section" id="vidHero">
-  <video autoplay muted loop playsinline>
+  <video id="heroVideo" autoplay muted loop playsinline poster="frames/frame_001.jpg">
     <source src="Video/orange.mp4" type="video/mp4">
   </video>
   <div class="frame-overlay">
@@ -624,6 +624,26 @@ footer .footer-bottom { max-width: 1080px; margin: 0 auto; display: flex; align-
 
 <!-- SCRIPTS -->
 <script>
+// Video autoplay fallback — triggers on first interaction if browser blocked it
+(function(){
+  var v = document.getElementById('heroVideo');
+  if(v){
+    var p = v.play();
+    if(p !== undefined){
+      p.catch(function(){
+        document.addEventListener('click', function retry(){
+          v.play();
+          document.removeEventListener('click', retry);
+        }, { once: true });
+        document.addEventListener('touchstart', function retry(){
+          v.play();
+          document.removeEventListener('touchstart', retry);
+        }, { once: true });
+      });
+    }
+  }
+})();
+
 gsap.registerPlugin(ScrollTrigger);
 
 // NAV shadow on scroll
