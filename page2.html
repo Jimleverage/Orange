@@ -50,7 +50,11 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
 .section-sub { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 46ch; }
 
 /* ── FRAME HERO */
-.frame-hero-section { height: 250vh; position: relative; }
+.frame-hero-section {
+  height: 250vh; position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
 .frame-sticky {
   position: sticky; top: 0;
   height: 100dvh; overflow: hidden;
@@ -127,7 +131,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
 @media (max-width: 768px) { .full-bleed-overlay { padding: 0 24px; } }
 
 /* ── STATS */
-.stats-section { background: var(--text); padding: 64px 24px; }
+.stats-section { background: var(--text); padding: 64px 24px; width: 100vw; margin-left: calc(50% - 50vw); }
 .stats-inner { max-width: 960px; margin: 0 auto; text-align: center; }
 .stats-inner .section-label { color: var(--accent); margin-bottom: 12px; }
 .stats-inner .section-title { color: #fff; margin: 0 auto 64px; max-width: none; }
@@ -183,6 +187,8 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
   border-top: 1px solid rgba(249,115,22,0.12);
   border-bottom: 1px solid rgba(249,115,22,0.12);
   padding: 64px 24px;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
 }
 .pulp-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .pulp-images { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -253,7 +259,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
 .order-note { margin-top: 20px; font-size: 13px; color: var(--muted); }
 
 /* ── FOOTER */
-footer { background: #120D05; color: rgba(255,255,255,0.45); padding: 72px 48px 40px; }
+footer { background: #120D05; color: rgba(255,255,255,0.45); padding: 72px 48px 40px; width: 100vw; margin-left: calc(50% - 50vw); }
 .footer-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 64px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07); }
 .footer-brand .logo { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; letter-spacing: -0.03em; }
 .footer-brand .logo span { color: var(--accent); }
